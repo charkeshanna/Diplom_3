@@ -1,14 +1,22 @@
 package pomTests;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pom.LoginPage;
+import pom.RegisterPage;
 import pom.StartPage;
 import utils.WebDriverFactory;
+
+import java.util.stream.Stream;
 
 public class RegistrationTest {
     private WebDriver driver;
@@ -20,7 +28,25 @@ public class RegistrationTest {
         driver = WebDriverFactory.createDriver(browser);
     }
 
-    void userIsAbleToRegister() {
+    @AfterEach
+    public void tearDown() {
+        // Закрой браузер
+        driver.quit();
+    }
+    static Stream<Arguments> testData() {
+        return Stream.of(
+                Arguments.of("Кто-то",
+                        "fakeEmail123@email.com", "sdfs23456")
+                /*Arguments.of("middle",
+                        "Жорж", "Санд", "Вольная", "Университет",
+                        "79454874560", "15.01.2026", "семеро суток")
+                */
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testData")
+    void userIsAbleToRegister(String name, String email, String password) {
         //переходим на главную страницу
         //разобраться потом, где хранить адрес стартовой страницы
         driver.get("https://stellarburgers.education-services.ru");
@@ -32,6 +58,21 @@ public class RegistrationTest {
         LoginPage loginPage = new LoginPage(driver);
         //дожидаемся загрузки страницы
         loginPage.waitForLoadPage();
+        //кликаем на линку Зарегистрироваться
+        loginPage.clickRegistrateLink();
+        //создаем объект класса страницы регистрации
+        RegisterPage registerPage = new RegisterPage(driver);
+        //добавить метод ожидания загрузки страницы
+        registerPage.waitForLoadPage();
+        //вводим имя
+        registerPage.inputName(name);
+        //вводим email
+        registerPage.inputEmail(email);
+        //вводим пароль
+        registerPage.inputPassword(password);
+        //нажимаем на кнопку Зарегистрироваться
+        registerPage.clickRegistrationButton();
 
     }
+
 }
