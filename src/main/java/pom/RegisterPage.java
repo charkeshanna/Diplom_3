@@ -20,7 +20,7 @@ public class RegisterPage {
     //поле Email
     private By emailInputField = By.xpath("(//input[contains(@class,'input__textfield')])[2]");
     //поле Password
-    private By passwordInputField = By.name("password");
+    private By passwordInputField = By.name("Пароль");
     //кнопка Зарегистрироваться
     private By registrateButton = By.xpath("//button[text()='Зарегистрироваться']");
 

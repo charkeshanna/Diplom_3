@@ -20,14 +20,14 @@ public class LoginPage {
     //поле Password
     private By passwordInputField = By.name("Пароль");
     //кнопка Войти
-    private By enterButton = By.xpath("//button[text()='Войти']");
+    private By loginButton = By.xpath("//button[text()='Войти']");
     //ссылка Зарегистрироваться
     private By registrateLink = By.linkText("Зарегистрироваться");
 
     // метод ожидания загрузки страницы --- проверить еще раз
     public void waitForLoadPage(){
         new WebDriverWait(driver, ofSeconds(3))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[@text()='Вход']")));
+                .until(ExpectedConditions.visibilityOfElementLocated(By.name("name")));
     }
     //метод клика по линке Зарегистрироваться
     public void clickRegistrateLink() {
@@ -43,8 +43,13 @@ public class LoginPage {
     }
 
     //нажимаем кнопку Войти
-    public void clickNextButton() {
-        driver.findElement(enterButton).click();
+    public void clickLoginButton() {
+        driver.findElement(loginButton).click();
     }
+
+    public boolean isLoginButtonDisplayed() {
+        return driver.findElement(loginButton).isDisplayed();
+    }
+
 
 }

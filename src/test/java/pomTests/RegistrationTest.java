@@ -18,6 +18,8 @@ import utils.WebDriverFactory;
 
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class RegistrationTest {
     private WebDriver driver;
 
@@ -72,6 +74,14 @@ public class RegistrationTest {
         registerPage.inputPassword(password);
         //нажимаем на кнопку Зарегистрироваться
         registerPage.clickRegistrationButton();
+        //после этого мы попадаем на страницу логина
+        LoginPage loginPageAfterRegistration = new LoginPage(driver);
+        //дожидаемся загрузки страницы
+        loginPageAfterRegistration.waitForLoadPage();
+        // Первая проверка, что мы находимся на странице логина
+        assertTrue(driver.getCurrentUrl().contains("/login"));
+        // проверяем, что мы действительно на странице логина
+        assertTrue(loginPageAfterRegistration.isLoginButtonDisplayed());
 
     }
 
