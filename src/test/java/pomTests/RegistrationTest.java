@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pom.LoginPage;
+import pom.ProfilePage;
 import pom.RegisterPage;
 import pom.StartPage;
 import utils.WebDriverFactory;
@@ -38,7 +39,7 @@ public class RegistrationTest {
     static Stream<Arguments> testData() {
         return Stream.of(
                 Arguments.of("Кто-то",
-                        "fakeEmail123@email.com", "sdfs23456")
+                        "f42№o00o9977-+a-l000012@email.com", "sdfs23456")
                 /*Arguments.of("middle",
                         "Жорж", "Санд", "Вольная", "Университет",
                         "79454874560", "15.01.2026", "семеро суток")
@@ -79,10 +80,26 @@ public class RegistrationTest {
         //дожидаемся загрузки страницы
         loginPageAfterRegistration.waitForLoadPage();
         // Первая проверка, что мы находимся на странице логина
-        assertTrue(driver.getCurrentUrl().contains("/login"));
-        // проверяем, что мы действительно на странице логина
-        assertTrue(loginPageAfterRegistration.isLoginButtonDisplayed());
-
+        //assertTrue(driver.getCurrentUrl().contains("/login"));
+        // проверяем, что мы действительно на странице логина - кнопка залогиниться отображается
+        //assertTrue(loginPageAfterRegistration.isLoginButtonDisplayed());
+        //возможно теперь должна быть проверка что можно залогиниться с использованием этих логина и пароля
+        //вводим логин
+        loginPageAfterRegistration.inputEmail(email);
+        //вводим пароль
+        loginPageAfterRegistration.inputPassword(password);
+        //кликаем войти
+        loginPageAfterRegistration.clickLoginButton();
+        //создаем объект стартовой страницы
+        StartPage startPageAfterRegistration = new StartPage(driver);
+        //дожидаемся ее загрузки
+        startPageAfterRegistration.waitForLoadPage();
+        //переходим в личный кабинет
+        startPageAfterRegistration.clickProfileLink();
+        //создаем объект страницы личный кабинет
+        ProfilePage profilePage = new ProfilePage(driver);
+        //дожидаемся загрузки страницы
+        profilePage.waitForLoadPage();
     }
 
 }

@@ -2,17 +2,22 @@ package pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static java.time.Duration.ofSeconds;
 
 public class LoginPage {
     private WebDriver driver;
+    private WebDriverWait wait;
 
     //конструктор
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     //поле Email
@@ -35,21 +40,27 @@ public class LoginPage {
     }
     //заполняем поле с Email
     public void inputEmail (String email) {
-        driver.findElement(emailInputField).sendKeys(email);
+        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        //WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(emailInputField));
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(emailInputField));
+        input.sendKeys(email);
     }
     //заполняем поле с password
     public void inputPassword(String password) {
-        driver.findElement(passwordInputField).sendKeys(password);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(passwordInputField));
+        input.sendKeys(password);
     }
 
     //нажимаем кнопку Войти
     public void clickLoginButton() {
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     public boolean isLoginButtonDisplayed() {
-        return driver.findElement(loginButton).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).isDisplayed();
     }
-
-
 }
+
+
+
