@@ -15,6 +15,8 @@ import pom.LoginPage;
 import pom.ProfilePage;
 import pom.RegisterPage;
 import pom.StartPage;
+import utils.EnvData;
+import utils.TestDataGenerator;
 import utils.WebDriverFactory;
 
 import java.util.stream.Stream;
@@ -36,23 +38,16 @@ public class RegistrationTest {
         // Закрой браузер
         driver.quit();
     }
-    static Stream<Arguments> testData() {
-        return Stream.of(
-                Arguments.of("Кто-то",
-                        "f42№o00o9977-+a-l000012@email.com", "sdfs23456")
-                /*Arguments.of("middle",
-                        "Жорж", "Санд", "Вольная", "Университет",
-                        "79454874560", "15.01.2026", "семеро суток")
-                */
-        );
-    }
 
-    @ParameterizedTest
-    @MethodSource("testData")
-    void userIsAbleToRegister(String name, String email, String password) {
+    @Test
+    void userIsAbleToRegister() {
+        //формирую тестовые данные
+        String email = TestDataGenerator.generateUsersEmail();
+        String password = TestDataGenerator.generateUsersPassword();
+        String name = email + " name";
         //переходим на главную страницу
         //разобраться потом, где хранить адрес стартовой страницы
-        driver.get("https://stellarburgers.education-services.ru");
+        driver.get(EnvData.getBaseUrl());
         //создаем объект класса стартовой страницы
         StartPage startPage = new StartPage(driver);
         //кликаем на кнопку Войти в аккаунт
@@ -79,27 +74,23 @@ public class RegistrationTest {
         LoginPage loginPageAfterRegistration = new LoginPage(driver);
         //дожидаемся загрузки страницы
         loginPageAfterRegistration.waitForLoadPage();
-        // Первая проверка, что мы находимся на странице логина
-        //assertTrue(driver.getCurrentUrl().contains("/login"));
-        // проверяем, что мы действительно на странице логина - кнопка залогиниться отображается
-        //assertTrue(loginPageAfterRegistration.isLoginButtonDisplayed());
-        //возможно теперь должна быть проверка что можно залогиниться с использованием этих логина и пароля
-        //вводим логин
+        //Первая проверка, что мы находимся на странице логина
+        assertTrue(loginPageAfterRegistration.isLoginButtonDisplayed(),
+                "Кнопка входа должна отображаться, если была успешная регистрации");
+        //теперь проверка что можем с этими кредами залогиниться
         loginPageAfterRegistration.inputEmail(email);
-        //вводим пароль
         loginPageAfterRegistration.inputPassword(password);
-        //кликаем войти
         loginPageAfterRegistration.clickLoginButton();
-        //создаем объект стартовой страницы
+        //дожидаемся загрузки стартовой страницы
         StartPage startPageAfterRegistration = new StartPage(driver);
-        //дожидаемся ее загрузки
         startPageAfterRegistration.waitForLoadPage();
         //переходим в личный кабинет
         startPageAfterRegistration.clickProfileLink();
-        //создаем объект страницы личный кабинет
         ProfilePage profilePage = new ProfilePage(driver);
-        //дожидаемся загрузки страницы
         profilePage.waitForLoadPage();
+        //теперь убедиться что страница профиля отобразится
+        assertTrue(profilePage.isProfileDisplayed(),
+                "Страница профиля должна отображаться после успешного входа");
     }
 
 }
