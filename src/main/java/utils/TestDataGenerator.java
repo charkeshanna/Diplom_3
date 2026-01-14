@@ -12,4 +12,8 @@ public class TestDataGenerator {
         return faker.internet().password(8, 12);
     }
 
+    public static String generateShortPassword() {
+        return faker.internet().password(2,5);
+    }
+
 }

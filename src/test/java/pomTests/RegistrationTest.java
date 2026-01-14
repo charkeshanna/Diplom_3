@@ -40,7 +40,7 @@ public class RegistrationTest {
     }
 
     @Test
-    void userIsAbleToRegister() {
+    void userIsAbleToRegisterWithValidCredentials() {
         //формирую тестовые данные
         String email = TestDataGenerator.generateUsersEmail();
         String password = TestDataGenerator.generateUsersPassword();
@@ -93,4 +93,45 @@ public class RegistrationTest {
                 "Страница профиля должна отображаться после успешного входа");
     }
 
+
+    @Test
+    void userIsNotAbleToRegisterWithShortPassword() {
+        //формирую тестовые данные
+        String email = TestDataGenerator.generateUsersEmail();
+        String shortPassword = TestDataGenerator.generateShortPassword();
+        String name = email + " name";
+        //переходим на главную страницу
+        //разобраться потом, где хранить адрес стартовой страницы
+        driver.get(EnvData.getBaseUrl());
+        //создаем объект класса стартовой страницы
+        StartPage startPage = new StartPage(driver);
+        //кликаем на кнопку Войти в аккаунт
+        startPage.clickLogInToAccountButton();
+        //создаем объект класса страницы логина
+        LoginPage loginPage = new LoginPage(driver);
+        //дожидаемся загрузки страницы
+        loginPage.waitForLoadPage();
+        //кликаем на линку Зарегистрироваться
+        loginPage.clickRegistrateLink();
+        //создаем объект класса страницы регистрации
+        RegisterPage registerPage = new RegisterPage(driver);
+        //добавить метод ожидания загрузки страницы
+        registerPage.waitForLoadPage();
+        //вводим имя
+        registerPage.inputName(name);
+        //вводим email
+        registerPage.inputEmail(email);
+        //вводим пароль
+        registerPage.inputPassword(shortPassword);
+        //нажимаем на кнопку Зарегистрироваться
+        registerPage.clickRegistrationButton();
+        //проверим что есть ошибка
+        assertTrue(registerPage.isPasswordErrorDisplayed(),
+                "Сообщение об ошибке должно появиться, если введен короткий пароль");
+
+        //Проверяю текст сообщения об ошибке
+        String errorMessage = registerPage.getPasswordErrorMessage();
+        assertTrue(errorMessage.contains("Некорректный пароль"),
+                "Сообщение об ошибке должно быть 'Некорректный пароль'");
+    }
 }
