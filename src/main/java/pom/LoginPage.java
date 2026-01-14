@@ -21,9 +21,9 @@ public class LoginPage {
     }
 
     //поле Email
-    private By emailInputField = By.name("name");
+    private By emailInputField = By.xpath("//input[@name='name']");
     //поле Password
-    private By passwordInputField = By.name("Пароль");
+    private By passwordInputField = By.xpath("//input[@type='password']");
     //кнопка Войти
     private By loginButton = By.xpath("//button[text()='Войти']");
     //ссылка Зарегистрироваться
@@ -31,8 +31,7 @@ public class LoginPage {
 
     // метод ожидания загрузки страницы --- проверить еще раз
     public void waitForLoadPage(){
-        new WebDriverWait(driver, ofSeconds(3))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.name("name")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton));
     }
     //метод клика по линке Зарегистрироваться
     public void clickRegistrateLink() {
@@ -40,14 +39,11 @@ public class LoginPage {
     }
     //заполняем поле с Email
     public void inputEmail (String email) {
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        //WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(emailInputField));
         WebElement input = wait.until(ExpectedConditions.elementToBeClickable(emailInputField));
         input.sendKeys(email);
     }
     //заполняем поле с password
     public void inputPassword(String password) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
         WebElement input = wait.until(ExpectedConditions.elementToBeClickable(passwordInputField));
         input.sendKeys(password);
     }
