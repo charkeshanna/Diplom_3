@@ -28,6 +28,8 @@ public class LoginPage {
     private By loginButton = By.xpath("//button[text()='Войти']");
     //ссылка Зарегистрироваться
     private By registrateLink = By.linkText("Зарегистрироваться");
+    //Ссылка восстановить пароль
+    private By forgotPasswordLink = By.linkText("Восстановить пароль");
 
     // метод ожидания загрузки страницы --- проверить еще раз
     public void waitForLoadPage(){
@@ -55,6 +57,11 @@ public class LoginPage {
 
     public boolean isLoginButtonDisplayed() {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).isDisplayed();
+    }
+
+    //кликаем по линке Восстановить пароль
+    public void clickForgotPasswordLink() {
+        driver.findElement(forgotPasswordLink).click();
     }
 }
 

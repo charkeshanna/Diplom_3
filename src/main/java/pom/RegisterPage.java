@@ -30,6 +30,8 @@ public class RegisterPage {
     private By registrateButton = By.xpath("//button[text()='Зарегистрироваться']");
     //сообщение об ошибке для пароля
     private By passwordErrorMessage = By.xpath("//p[contains(@class,'input__error')]");
+    //ссылка Войти
+    private By loginLink = By.linkText("Войти");
 
     // метод ожидания загрузки страницы --- проверить еще раз
     public void waitForLoadPage(){
@@ -66,6 +68,10 @@ public class RegisterPage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void clickLoginLink() {
+        driver.findElement(loginLink).click();
     }
 
 }
