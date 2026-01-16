@@ -21,8 +21,14 @@ public class ProfilePage {
 
     //ссылка Профиль
     private By profileLink = By.xpath("//a[text()='Профиль']");
-
+    //кнопка Конструктор
+    private By constructorButton = By.xpath("//p[text()='Конструктор']");
+    //логотип Stellar Burgers
+    private By stellarBurgersLogo = By.xpath("//div[contains(@class,'AppHeader_header__logo')]");
+    //кнопка Выход
+    private By logoutButton = By.xpath("//button[text()='Выход']");
     // метод ожидания загрузки страницы --- проверить еще раз
+
     public void waitForLoadPage(){
         new WebDriverWait(driver, ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Профиль']")));
@@ -34,5 +40,18 @@ public class ProfilePage {
         } catch (Exception e) {
             return false;
         }
+    }
+    //метод клика по кнопке Конструктор
+    public void clickConstructorButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(constructorButton)).click();
+    }
+
+    //метод клика по логотипу
+    public void clickLogo() {
+        wait.until(ExpectedConditions.elementToBeClickable(stellarBurgersLogo)).click();
+    }
+    //метод клика по кнопке Выход
+    public void clickLogoutButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
     }
 }

@@ -15,7 +15,7 @@ import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class NavigationToProfileTest {
+public class NavigationTest {
     private WebDriver driver;
     private String testEmail;
     private String testPassword;
@@ -79,6 +79,50 @@ public class NavigationToProfileTest {
 
         assertTrue(profilePage.isProfileDisplayed(),
                 "Страница профиля должна отображаться");
+    }
+
+    @Test
+    @DisplayName("Переход из личного кабинета в конструктор по кнопке 'Конструктор'")
+    void testNavigateToConstructorViaButton() {
+        //Переходим в личный кабинет
+        StartPage startPage = new StartPage(driver);
+        startPage.clickProfileLink();
+
+        ProfilePage profilePage = new ProfilePage(driver);
+        profilePage.waitForLoadPage();
+
+        //Кликаем на кнопку Конструктор
+        profilePage.clickConstructorButton();
+
+        //Проверяем, что отображается главная страница с конструктором
+        StartPage mainPage = new StartPage(driver);
+        mainPage.waitForLoadPage();
+
+        //Проверяем, что вкладка Булки активна по умолчанию
+        assertTrue(mainPage.isBunsTabActive(),
+                "Главная страница с конструктором должна отображаться");
+    }
+
+    @Test
+    @DisplayName("Переход из личного кабинета в конструктор по логотипу")
+    void testNavigateToConstructorViaLogo() {
+        //Переходим в личный кабинет
+        StartPage startPage = new StartPage(driver);
+        startPage.clickProfileLink();
+
+        ProfilePage profilePage = new ProfilePage(driver);
+        profilePage.waitForLoadPage();
+
+        //Кликаем на логотип Stellar Burgers
+        profilePage.clickLogo();
+
+        //Проверяем, что отображается главная страница с конструктором
+        StartPage mainPage = new StartPage(driver);
+        mainPage.waitForLoadPage();
+
+        //Проверяем, что вкладка Булки активна по умолчанию
+        assertTrue(mainPage.isBunsTabActive(),
+                "Главная страница с конструктором должна отображаться");
     }
 
 }

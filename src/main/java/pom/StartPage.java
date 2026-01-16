@@ -21,6 +21,8 @@ public class StartPage {
     //Профиль
     private By profileLink = By.xpath("//p[contains(text(),'Личный Кабинет')]");
 
+    //активная вкладка (родитель с классом current)
+    private By activeBunsTab = By.xpath("//span[text()='Булки']/parent::div[contains(@class,'current')]");
     //метод клика по кнопке Войти в аккаунт
     public void clickLogInToAccountButton() {
         wait.until(ExpectedConditions.elementToBeClickable(logInToAccountButton)).click();
@@ -35,5 +37,13 @@ public class StartPage {
     //метод клика по Профиль
     public void clickProfileLink() {
         driver.findElement(profileLink).click();
+    }
+    //проверка активности вкладки Булки
+    public boolean isBunsTabActive() {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(activeBunsTab)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
