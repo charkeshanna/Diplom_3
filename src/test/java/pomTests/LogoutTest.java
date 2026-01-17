@@ -26,8 +26,7 @@ public class LogoutTest {
     @BeforeEach
     public void setUp() {
         //браузер вынести
-        String browser = System.getProperty("browser", "chrome");
-        driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver();
 
         //Сгенерируем креды
         testEmail = TestDataGenerator.generateUsersEmail();

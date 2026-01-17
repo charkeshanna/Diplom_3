@@ -17,8 +17,7 @@ public class ConstructorTest {
     @BeforeEach
     //проапдейтить потом браузеры
     public void setUp() {
-        String browser = System.getProperty("browser", "chrome");
-        driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver();
     }
 
     @AfterEach

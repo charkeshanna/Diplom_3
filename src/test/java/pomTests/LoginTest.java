@@ -25,8 +25,7 @@ public class LoginTest {
     //потом исправить когда браузерами буду заниматься
     @BeforeEach
     public void setUp() {
-        String browser = System.getProperty("browser", "chrome");
-        driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver();
 
         //Сгенерируем креды
          testEmail = TestDataGenerator.generateUsersEmail();

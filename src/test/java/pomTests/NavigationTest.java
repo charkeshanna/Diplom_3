@@ -25,8 +25,7 @@ public class NavigationTest {
     @BeforeEach
     public void setUp() {
         //браузер вынести
-        String browser = System.getProperty("browser", "chrome");
-        driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver();
 
         //Генерируем случайные данные для тестового пользователя
         testEmail = TestDataGenerator.generateUsersEmail();

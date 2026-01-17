@@ -20,8 +20,7 @@ public class RegistrationTest {
     //потом исправить когда браузерами буду заниматься
     @BeforeEach
     public void setUp() {
-        String browser = System.getProperty("browser", "chrome");
-        driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver();
     }
 
     @AfterEach
