@@ -1,7 +1,6 @@
 package utils;
 
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import model.User;
@@ -41,21 +40,4 @@ public class UserApiClient {
         }
     }
 
-    //Логинимся под созданным пользователем через API
-    @Step("Авторизация пользователя через API: {email}")
-    public static String loginUser(String email, String password) {
-        User loginData = new User(email, password, null);
-
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .body(loginData)
-                .when()
-                .post(EnvData.BASE_URL + "/api/auth/login")
-                .then()
-                .statusCode(200)
-                .extract()
-                .response();
-
-        return response.jsonPath().getString("accessToken");
-    }
 }
