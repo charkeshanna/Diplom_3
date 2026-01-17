@@ -30,6 +30,7 @@ public class RegistrationTest {
         driver.quit();
     }
 
+    @DisplayName("Пользователь может зарегистрироваться с валидными данными")
     @Test
     void userIsAbleToRegisterWithValidCredentials() {
         //формирую тестовые данные
@@ -96,7 +97,7 @@ public class RegistrationTest {
                 "Страница профиля должна отображаться после успешного входа");
     }
 
-
+    @DisplayName("Пользователь не может зарегистрироваться со слишком коротким паролем")
     @Test
     void userIsNotAbleToRegisterWithShortPassword() {
         //формирую тестовые данные
