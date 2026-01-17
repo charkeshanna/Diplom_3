@@ -10,7 +10,7 @@ import utils.EnvData;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+@DisplayName("Проверка переключений между вкладками Соусы, Начинки, Булки")
 public class ConstructorTest {
     private WebDriver driver;
 
