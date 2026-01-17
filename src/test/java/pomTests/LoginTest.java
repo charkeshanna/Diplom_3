@@ -28,13 +28,12 @@ public class LoginTest {
         String browser = System.getProperty("browser", "chrome");
         driver = WebDriverFactory.createDriver(browser);
 
-        // сгенерим креды
+        //Сгенерируем креды
          testEmail = TestDataGenerator.generateUsersEmail();
          testPassword = TestDataGenerator.generateUsersPassword();
          testName = testEmail + " name";
 
-         //зарегистрируем пользователя
-        //Регистрируем пользователя через API
+         //Зарегистрируем пользователя через API
         User user = new User(testEmail, testPassword, testName);
         accessToken = UserApiClient.registerUser(user);
     }
@@ -78,7 +77,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через кнопку 'Личный Кабинет'")
-    void testLoginViaPersonalAccountButton() {
+    void userIsAbleToLoginViaPersonalAccountButton() {
         //Переходим на главную страницу
         driver.get(EnvData.getBaseUrl());
         StartPage startPage = new StartPage(driver);
@@ -108,7 +107,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через ссылку на форме регистрации")
-    void testLoginViaRegistrationFormButton() {
+    void userIsAbleToLoginViaRegistrationFormButton() {
         //Переходим на главную страницу
         driver.get(EnvData.getBaseUrl());
         StartPage startPage = new StartPage(driver);
@@ -148,7 +147,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через ссылку на форме восстановления пароля")
-    void testLoginViaPasswordRecoveryButton() {
+    void userIsAbleToLoginViaPasswordRecoveryButton() {
         //Переходим на главную страницу
         driver.get(EnvData.getBaseUrl());
         StartPage startPage = new StartPage(driver);
