@@ -1,5 +1,6 @@
 package pom;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,11 +30,33 @@ public class ProfilePage {
     private By logoutButton = By.xpath("//button[text()='Выход']");
     // метод ожидания загрузки страницы --- проверить еще раз
 
+    // метод ожидания загрузки страницы
+    @Step("Ожидание загрузки страницы профиля")
     public void waitForLoadPage(){
         new WebDriverWait(driver, ofSeconds(3))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='Профиль']")));
     }
 
+    //метод клика по кнопке Выход
+    @Step("Клик по кнопке 'Выход'")
+    public void clickLogoutButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
+    }
+
+    //метод клика по кнопке Конструктор
+    @Step("Клик по кнопке 'Конструктор'")
+    public void clickConstructorButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(constructorButton)).click();
+    }
+
+    //метод клика по логотипу
+    @Step("Клик по логотипу Stellar Burgers")
+    public void clickLogo() {
+        wait.until(ExpectedConditions.elementToBeClickable(stellarBurgersLogo)).click();
+    }
+
+    //проверка отображения страницы профиля
+    @Step("Проверка отображения страницы профиля")
     public boolean isProfileDisplayed() {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(profileLink)).isDisplayed();
@@ -41,17 +64,7 @@ public class ProfilePage {
             return false;
         }
     }
-    //метод клика по кнопке Конструктор
-    public void clickConstructorButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(constructorButton)).click();
-    }
 
-    //метод клика по логотипу
-    public void clickLogo() {
-        wait.until(ExpectedConditions.elementToBeClickable(stellarBurgersLogo)).click();
-    }
-    //метод клика по кнопке Выход
-    public void clickLogoutButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
-    }
+
+
 }
