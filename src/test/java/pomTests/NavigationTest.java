@@ -1,5 +1,4 @@
 package pomTests;
-
 import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import pom.LoginPage;
 import pom.ProfilePage;
-import pom.RegisterPage;
 import pom.StartPage;
 import utils.EnvData;
 import utils.TestDataGenerator;
@@ -65,7 +63,7 @@ public class NavigationTest {
 
     @Test
     @DisplayName("Переход в личный кабинет")
-    void testNavigateToPersonalAccount() {
+    void userIsAbleToNavigateToPersonalAccount() {
         //Кликаем на ссылку Личный Кабинет
         StartPage startPage = new StartPage(driver);
         startPage.clickProfileLink();
@@ -80,7 +78,7 @@ public class NavigationTest {
 
     @Test
     @DisplayName("Переход из личного кабинета в конструктор по кнопке 'Конструктор'")
-    void testNavigateToConstructorViaButton() {
+    void userIsAbleToNavigateToConstructorFromProfile() {
         //Переходим в личный кабинет
         StartPage startPage = new StartPage(driver);
         startPage.clickProfileLink();
@@ -102,7 +100,7 @@ public class NavigationTest {
 
     @Test
     @DisplayName("Переход из личного кабинета в конструктор по логотипу")
-    void testNavigateToConstructorViaLogo() {
+    void userIsAbleToNavigateToConstructorViaLogo() {
         //Переходим в личный кабинет
         StartPage startPage = new StartPage(driver);
         startPage.clickProfileLink();
