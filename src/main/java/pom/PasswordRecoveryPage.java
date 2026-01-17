@@ -1,5 +1,6 @@
 package pom;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,11 +19,13 @@ public class PasswordRecoveryPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-
+    //ссылка Войти
     private By loginLink = By.linkText("Войти");
     //кнопка Восстановить
     private By recoverButton = By.xpath("//button[text()='Восстановить']");
+
     // метод ожидания загрузки страницы
+    @Step("Ожидание загрузки страницы восстановления пароля")
     public void waitForLoadPage(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(recoverButton));
     }
@@ -31,6 +34,7 @@ public class PasswordRecoveryPage {
 
 
     //метод клика по ссылке Войти
+    @Step("Клик по ссылке 'Войти'")
     public void clickLoginLink() {
         driver.findElement(loginLink).click();
     }
