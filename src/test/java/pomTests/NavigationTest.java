@@ -14,7 +14,7 @@ import utils.UserApiClient;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+@DisplayName("Проверка основной навигации на портале")
 public class NavigationTest {
     private WebDriver driver;
     private String testEmail;

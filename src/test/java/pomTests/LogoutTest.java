@@ -15,7 +15,7 @@ import utils.UserApiClient;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+@DisplayName("Проверка выхода из системы")
 public class LogoutTest {
     private WebDriver driver;
     private String testEmail;

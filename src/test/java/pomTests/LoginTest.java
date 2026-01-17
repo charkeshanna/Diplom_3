@@ -13,7 +13,7 @@ import utils.UserApiClient;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+@DisplayName("Проверка логина")
 public class LoginTest {
     private WebDriver driver;
     private String testEmail;
