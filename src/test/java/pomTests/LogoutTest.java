@@ -1,5 +1,6 @@
 package pomTests;
 
+import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,19 +8,20 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import pom.LoginPage;
 import pom.ProfilePage;
-import pom.RegisterPage;
 import pom.StartPage;
 import utils.EnvData;
 import utils.TestDataGenerator;
+import utils.UserApiClient;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LogOutTest {
+public class LogoutTest {
     private WebDriver driver;
     private String testEmail;
     private String testPassword;
     private String testName;
+    private String accessToken;
 
     @BeforeEach
     public void setUp() {
@@ -27,29 +29,23 @@ public class LogOutTest {
         String browser = System.getProperty("browser", "chrome");
         driver = WebDriverFactory.createDriver(browser);
 
-        //Генерируем случайные данные для тестового пользователя
+        //Сгенерируем креды
         testEmail = TestDataGenerator.generateUsersEmail();
         testPassword = TestDataGenerator.generateUsersPassword();
         testName = testEmail + " name";
 
-        //Регистрируем и входим в систему
+        //Зарегистрируем пользователя через API
+        User user = new User(testEmail, testPassword, testName);
+        accessToken = UserApiClient.registerUser(user);
+
+
+        //Входим в систему
         driver.get(EnvData.getBaseUrl());
         StartPage startPage = new StartPage(driver);
         startPage.waitForLoadPage();
         startPage.clickLogInToAccountButton();
 
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.waitForLoadPage();
-        loginPage.clickRegistrateLink();
-
-        RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.waitForLoadPage();
-        registerPage.inputName(testName);
-        registerPage.inputEmail(testEmail);
-        registerPage.inputPassword(testPassword);
-        registerPage.clickRegistrationButton();
-
-        //Входим в систему
+        //вводим креды и логинимся
         LoginPage loginPageAfterReg = new LoginPage(driver);
         loginPageAfterReg.waitForLoadPage();
         loginPageAfterReg.inputEmail(testEmail);
@@ -63,6 +59,8 @@ public class LogOutTest {
 
     @AfterEach
     public void tearDown() {
+        //Удаляем пользователя через API
+        UserApiClient.deleteUser(accessToken);
         driver.quit();
     }
 
