@@ -1,5 +1,6 @@
 package pomTests;
 
+import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import pom.*;
 import utils.EnvData;
 import utils.TestDataGenerator;
+import utils.UserApiClient;
 import utils.WebDriverFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +19,7 @@ public class LoginTest {
     private String testEmail;
     private String testPassword;
     private String testName;
+    private String accessToken;
 
 
     //потом исправить когда браузерами буду заниматься
@@ -29,31 +32,17 @@ public class LoginTest {
          testEmail = TestDataGenerator.generateUsersEmail();
          testPassword = TestDataGenerator.generateUsersPassword();
          testName = testEmail + " name";
-        //зарегистрируем пользователя
-        driver.get(EnvData.getBaseUrl());
-        StartPage startPage = new StartPage(driver);
-        startPage.waitForLoadPage();
-        startPage.clickLogInToAccountButton();
 
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.waitForLoadPage();
-        loginPage.clickRegistrateLink();
-        //потом возможно лучше отельный метод общий написать
-        RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.waitForLoadPage();
-        registerPage.inputName(testName);
-        registerPage.inputEmail(testEmail);
-        registerPage.inputPassword(testPassword);
-        registerPage.clickRegistrationButton();
-
-        //Ждем перенаправления на страницу логина
-        LoginPage loginPageAfterReg = new LoginPage(driver);
-        loginPageAfterReg.waitForLoadPage();
+         //зарегистрируем пользователя
+        //Регистрируем пользователя через API
+        User user = new User(testEmail, testPassword, testName);
+        accessToken = UserApiClient.registerUser(user);
     }
 
     @AfterEach
     public void tearDown() {
-        // Закрой браузер
+        //Удаляем пользователя через API
+        UserApiClient.deleteUser(accessToken);
         driver.quit();
     }
 
