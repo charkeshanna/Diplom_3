@@ -1,5 +1,4 @@
 package pomTests;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,31 +10,40 @@ import pom.RegisterPage;
 import pom.StartPage;
 import utils.EnvData;
 import utils.TestDataGenerator;
+import utils.UserApiClient;
 import utils.WebDriverFactory;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-@DisplayName("Проверка регистрации пользователя")
-public class RegistrationTest {
+@DisplayName("Проверка регистрации пользователя с валидными данными")
+public class PositiveUserRegistrationTest {
     private WebDriver driver;
+    private String email;
+    private String password;
+    private String name;
+    private String accessToken;
 
-    //потом исправить когда браузерами буду заниматься
     @BeforeEach
     public void setUp() {
         driver = WebDriverFactory.createDriver();
+        //формирую тестовые данные
+         email = TestDataGenerator.generateUsersEmail();
+         password = TestDataGenerator.generateUsersPassword();
+         name = email + " Name";
     }
 
     @AfterEach
     public void tearDown() {
         // Закрой браузер
         driver.quit();
+        //удаление юзера
+        //залогинимся чтобы получить accessToken
+        accessToken = UserApiClient.loginUser(email, password);
+        //удалим юзера
+        UserApiClient.deleteUser(accessToken);
     }
 
     @DisplayName("Пользователь может зарегистрироваться с валидными данными")
     @Test
     void userIsAbleToRegisterWithValidCredentials() {
-        //формирую тестовые данные
-        String email = TestDataGenerator.generateUsersEmail();
-        String password = TestDataGenerator.generateUsersPassword();
-        String name = email + " name";
 
         //переходим на главную страницу
         driver.get(EnvData.getBaseUrl());
@@ -96,50 +104,5 @@ public class RegistrationTest {
                 "Страница профиля должна отображаться после успешного входа");
     }
 
-    @DisplayName("Пользователь не может зарегистрироваться со слишком коротким паролем")
-    @Test
-    void userIsNotAbleToRegisterWithShortPassword() {
-        //формирую тестовые данные
-        String email = TestDataGenerator.generateUsersEmail();
-        String shortPassword = TestDataGenerator.generateShortPassword();
-        String name = email + " name";
 
-        //переходим на главную страницу
-        driver.get(EnvData.getBaseUrl());
-
-        //создаем объект класса стартовой страницы
-        StartPage startPage = new StartPage(driver);
-        startPage.waitForLoadPage();
-
-        //кликаем на кнопку Войти в аккаунт
-        startPage.clickLogInToAccountButton();
-
-        //создаем объект класса страницы логина
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.waitForLoadPage();
-
-        //кликаем на линку Зарегистрироваться
-        loginPage.clickRegistrateLink();
-
-        //создаем объект класса страницы регистрации
-        RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.waitForLoadPage();
-
-        //Вводим данные для регистрации
-        registerPage.inputName(name);
-        registerPage.inputEmail(email);
-        registerPage.inputPassword(shortPassword);
-
-        //нажимаем на кнопку Зарегистрироваться
-        registerPage.clickRegistrationButton();
-
-        //Проверяем, что отображается ошибка
-        assertTrue(registerPage.isPasswordErrorDisplayed(),
-                "Сообщение об ошибке должно появиться, если введен короткий пароль");
-
-        //Проверяю текст сообщения об ошибке
-        String errorMessage = registerPage.getPasswordErrorMessage();
-        assertTrue(errorMessage.contains("Некорректный пароль"),
-                "Сообщение об ошибке должно быть 'Некорректный пароль'");
-    }
 }

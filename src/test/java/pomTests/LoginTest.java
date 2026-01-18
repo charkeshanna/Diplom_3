@@ -22,7 +22,6 @@ public class LoginTest {
     private String accessToken;
 
 
-    //потом исправить когда браузерами буду заниматься
     @BeforeEach
     public void setUp() {
         driver = WebDriverFactory.createDriver();

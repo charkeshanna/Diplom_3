@@ -39,5 +39,21 @@ public class UserApiClient {
                     .statusCode(202);
         }
     }
+    @Step("Авторизация пользователя через API: {email}")
+    public static String loginUser(String email, String password) {
+        User loginData = new User(email, password, null);
+
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .body(loginData)
+                .when()
+                .post(EnvData.BASE_URL + "/api/auth/login")
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
+
+        return response.jsonPath().getString("accessToken");
+    }
 
 }

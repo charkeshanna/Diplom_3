@@ -15,7 +15,6 @@ public class ConstructorTest {
     private WebDriver driver;
 
     @BeforeEach
-    //проапдейтить потом браузеры
     public void setUp() {
         driver = WebDriverFactory.createDriver();
     }

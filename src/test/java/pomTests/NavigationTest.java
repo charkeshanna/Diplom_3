@@ -24,7 +24,6 @@ public class NavigationTest {
 
     @BeforeEach
     public void setUp() {
-        //браузер вынести
         driver = WebDriverFactory.createDriver();
 
         //Генерируем случайные данные для тестового пользователя
@@ -32,7 +31,7 @@ public class NavigationTest {
         testPassword = TestDataGenerator.generateUsersPassword();
         testName = testEmail + " name";
 
-        //регистриурем пользователя через API
+        //регистрируем пользователя через API
         User user = new User(testEmail, testPassword, testName);
         accessToken = UserApiClient.registerUser(user);
 

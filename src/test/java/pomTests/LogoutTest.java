@@ -25,7 +25,6 @@ public class LogoutTest {
 
     @BeforeEach
     public void setUp() {
-        //браузер вынести
         driver = WebDriverFactory.createDriver();
 
         //Сгенерируем креды
